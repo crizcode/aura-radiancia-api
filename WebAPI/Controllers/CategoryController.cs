@@ -4,7 +4,7 @@ using Shared;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/category")]
     [ApiController]
     public class CategoryController : ControllerBase
     {
@@ -12,17 +12,17 @@ namespace WebAPI.Controllers
         public CategoryController(IServiceManager serviceManager) => _serviceManager = serviceManager;
 
         // List Categorys
-        [HttpGet]
+        [HttpGet("list")]
         public async Task<IActionResult> GetCategories(CancellationToken cancellationToken)
         {
-            var Categorys = await _serviceManager.CategoryService.GetAllAsync(cancellationToken);
-            return Ok(Categorys);
+            var Categories = await _serviceManager.CategoryService.GetAllAsync(cancellationToken);
+            return Ok(Categories);
         }
 
 
         // List Categorys by Id
 
-        [HttpGet("{categoryId}")]
+        [HttpGet("list/{categoryId}")]
         public async Task<IActionResult> GetCategoryById(int categoryId, CancellationToken cancellationToken)
         {
             var CategoryDto = await _serviceManager.CategoryService.GetByIdAsync(categoryId, cancellationToken);
@@ -30,7 +30,7 @@ namespace WebAPI.Controllers
         }
 
         // Add Category
-        [HttpPost]
+        [HttpPost("save")]
         public async Task<IActionResult> CreateCategory([FromBody] CategoryDto CategoryForCreationDto)
         {
             try
@@ -50,7 +50,7 @@ namespace WebAPI.Controllers
 
 
         // Update Category
-        [HttpPut("{categoryId}")]
+        [HttpPut("update/{categoryId}")]
         public async Task<IActionResult> UpdateCategory(int categoryId, [FromBody] CategoryDto CategoryForUpdateDto, CancellationToken cancellationToken)
         {
             await _serviceManager.CategoryService.UpdateAsync(categoryId, CategoryForUpdateDto, cancellationToken);
@@ -59,7 +59,7 @@ namespace WebAPI.Controllers
 
 
         // Delete Category
-        [HttpDelete("{categoryId}")] 
+        [HttpDelete("dalete/{categoryId}")] 
         public async Task<IActionResult> DeleteCategory(int categoryId, CancellationToken cancellationToken)
         {
             await _serviceManager.CategoryService.DeleteAsync(categoryId, cancellationToken);

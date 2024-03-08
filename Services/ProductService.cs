@@ -48,7 +48,7 @@ namespace Services
 
             return productDtos;
         }
- 
+
         public async Task<ProductDto> GetByIdAsync(int productId, CancellationToken cancellationToken = default)
         {
             var product = await _repositoryManager.Products.GetByIdAsync(productId, cancellationToken);
@@ -56,8 +56,25 @@ namespace Services
             {
                 throw new ProductNotFoundExceptions(productId);
             }
-            return _mapper.Map<ProductDto>(product);
+
+            // Cargar las entidades relacionadas (Category y Supplier) para el producto
+            if (product.CategoryId != 0)
+            {
+                product.Category = await _repositoryManager.Categories.GetByIdAsync(product.CategoryId, cancellationToken);
+            }
+
+            if (product.SupplierId != 0)
+            {
+                product.Supplier = await _repositoryManager.Suppliers.GetByIdAsync(product.SupplierId, cancellationToken);
+            }
+
+            // Mapear los datos a ProductDto
+            var productDto = _mapper.Map<ProductDto>(product);
+
+            return productDto;
         }
+
+
         public async Task<ProductDto> CreateAsync(ProductDto productForCreationDto, CancellationToken cancellationToken = default)
         {
             var product = _mapper.Map<Product>(productForCreationDto);

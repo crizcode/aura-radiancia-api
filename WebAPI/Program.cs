@@ -5,7 +5,6 @@ using System.Data.SqlClient;
 var builder = WebApplication.CreateBuilder(args);
 
 // Agrega servicios necesarios para la aplicación
-// Agrega servicios necesarios para la aplicación
 ServiceConfiguration.Configure(builder.Services, builder.Configuration);
 builder.Services.AddControllers();
 

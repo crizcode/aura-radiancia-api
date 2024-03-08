@@ -4,7 +4,7 @@ using Shared;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/supplier")]
     [ApiController]
     public class SupplierController : ControllerBase
     {
@@ -12,7 +12,7 @@ namespace WebAPI.Controllers
         public SupplierController(IServiceManager serviceManager) => _serviceManager = serviceManager;
 
         // List Suppliers
-        [HttpGet]
+        [HttpGet("list")]
         public async Task<IActionResult> GetSuppliers(CancellationToken cancellationToken)
         {
             var Suppliers = await _serviceManager.SupplierService.GetAllAsync(cancellationToken);
@@ -22,7 +22,7 @@ namespace WebAPI.Controllers
 
         // List Suppliers by Id
 
-        [HttpGet("{supplierId}")]
+        [HttpGet("list/{supplierId}")]
         public async Task<IActionResult> GetSupplierById(int supplierId, CancellationToken cancellationToken)
         {
             var supplierDto = await _serviceManager.SupplierService.GetByIdAsync(supplierId, cancellationToken);
@@ -30,7 +30,7 @@ namespace WebAPI.Controllers
         }
 
         // Add Supplier
-        [HttpPost]
+        [HttpPost("save")]
         public async Task<IActionResult> CreateSupplier([FromBody] SupplierDto SupplierForCreationDto)
         {
             try
@@ -50,7 +50,7 @@ namespace WebAPI.Controllers
 
 
         // Update Supplier
-        [HttpPut("{supplierId}")]
+        [HttpPut("list/{supplierId}")]
         public async Task<IActionResult> UpdateSupplier(int supplierId, [FromBody] SupplierDto SupplierForUpdateDto, CancellationToken cancellationToken)
         {
             await _serviceManager.SupplierService.UpdateAsync(supplierId, SupplierForUpdateDto, cancellationToken);
@@ -59,7 +59,7 @@ namespace WebAPI.Controllers
 
 
         // Delete Supplier
-        [HttpDelete("{supplierId}")] 
+        [HttpDelete("list/{supplierId}")] 
         public async Task<IActionResult> DeleteSupplier(int supplierId, CancellationToken cancellationToken)
         {
             await _serviceManager.SupplierService.DeleteAsync(supplierId, cancellationToken);

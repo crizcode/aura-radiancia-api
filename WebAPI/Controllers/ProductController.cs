@@ -1,14 +1,10 @@
-using Domain.Entities;
-using Domain.Repositories;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Services.Abstractions;
 using Shared;
-using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/product")]
     [ApiController]
     public class ProductController : ControllerBase
     {
@@ -16,8 +12,8 @@ namespace WebAPI.Controllers
         public ProductController(IServiceManager serviceManager) => _serviceManager = serviceManager;
 
         // List Products
-        [HttpGet]
-        public async Task<IActionResult> GetProducts(CancellationToken cancellationToken)
+        [HttpGet("list")]
+        public async Task<IActionResult> GetCategories(CancellationToken cancellationToken)
         {
             var products = await _serviceManager.ProductService.GetAllAsync(cancellationToken);
             return Ok(products);
@@ -26,7 +22,7 @@ namespace WebAPI.Controllers
 
         // List Products by Id
 
-        [HttpGet("{productId}")]
+        [HttpGet("list/{ProductId}")]
         public async Task<IActionResult> GetProductById(int productId, CancellationToken cancellationToken)
         {
             var productDto = await _serviceManager.ProductService.GetByIdAsync(productId, cancellationToken);
@@ -34,13 +30,13 @@ namespace WebAPI.Controllers
         }
 
         // Add Product
-        [HttpPost]
-        public async Task<IActionResult> CreateProduct([FromBody] ProductDto productForCreationDto)
+        [HttpPost("save")]
+        public async Task<IActionResult> CreateProduct([FromBody] ProductDto ProductForCreationDto)
         {
             try
             {
-                // Crear el producto utilizando el servicio
-                await _serviceManager.ProductService.CreateAsync(productForCreationDto);
+                // Crear el Producto utilizando el servicio
+                await _serviceManager.ProductService.CreateAsync(ProductForCreationDto);
 
                 // Devolver un mensaje de éxito
                 return Ok("Producto creado exitosamente.");
@@ -48,22 +44,22 @@ namespace WebAPI.Controllers
             catch (Exception ex)
             {
                 // Devolver un mensaje de error en caso de excepción
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error al crear el producto: " + ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error al crear : " + ex.Message);
             }
         }
 
 
         // Update Product
-        [HttpPut("{productId}")]
-        public async Task<IActionResult> UpdateProduct(int productId, [FromBody] ProductDto productForUpdateDto, CancellationToken cancellationToken)
+        [HttpPut("update/{ProductId}")]
+        public async Task<IActionResult> UpdateProduct(int productId, [FromBody] ProductDto ProductForUpdateDto, CancellationToken cancellationToken)
         {
-            await _serviceManager.ProductService.UpdateAsync(productId, productForUpdateDto, cancellationToken);
-            return NoContent();
+            await _serviceManager.ProductService.UpdateAsync(productId, ProductForUpdateDto, cancellationToken);
+            return Ok("Producto actualizada.");
         }
 
 
         // Delete Product
-        [HttpDelete("{productId}")] 
+        [HttpDelete("dalete/{ProductId}")]
         public async Task<IActionResult> DeleteProduct(int productId, CancellationToken cancellationToken)
         {
             await _serviceManager.ProductService.DeleteAsync(productId, cancellationToken);
