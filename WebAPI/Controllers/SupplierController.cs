@@ -50,7 +50,7 @@ namespace WebAPI.Controllers
 
 
         // Update Supplier
-        [HttpPut("list/{supplierId}")]
+        [HttpPut("update/{supplierId}")]
         public async Task<IActionResult> UpdateSupplier(int supplierId, [FromBody] SupplierDto SupplierForUpdateDto, CancellationToken cancellationToken)
         {
             await _serviceManager.SupplierService.UpdateAsync(supplierId, SupplierForUpdateDto, cancellationToken);
@@ -59,7 +59,7 @@ namespace WebAPI.Controllers
 
 
         // Delete Supplier
-        [HttpDelete("list/{supplierId}")] 
+        [HttpDelete("delete/{supplierId}")] 
         public async Task<IActionResult> DeleteSupplier(int supplierId, CancellationToken cancellationToken)
         {
             await _serviceManager.SupplierService.DeleteAsync(supplierId, cancellationToken);

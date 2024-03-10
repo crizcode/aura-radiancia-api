@@ -22,7 +22,7 @@ namespace WebAPI.Controllers
 
         // List Products by Id
 
-        [HttpGet("list/{ProductId}")]
+        [HttpGet("list/{productId}")]
         public async Task<IActionResult> GetProductById(int productId, CancellationToken cancellationToken)
         {
             var productDto = await _serviceManager.ProductService.GetByIdAsync(productId, cancellationToken);
@@ -39,18 +39,20 @@ namespace WebAPI.Controllers
                 await _serviceManager.ProductService.CreateAsync(ProductForCreationDto);
 
                 // Devolver un mensaje de éxito
-                return Ok("Producto creado exitosamente.");
+                // Devolver un mensaje de éxito
+                return Ok(new { message = "Producto creado exitosamente" });
             }
             catch (Exception ex)
             {
-                // Devolver un mensaje de error en caso de excepción
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error al crear : " + ex.Message);
+                // Manejar cualquier excepción y devolver un mensaje de error
+                return StatusCode(500, new { error = "Error al crear el producto" });
             }
         }
 
 
+
         // Update Product
-        [HttpPut("update/{ProductId}")]
+        [HttpPut("update/{productId}")]
         public async Task<IActionResult> UpdateProduct(int productId, [FromBody] ProductDto ProductForUpdateDto, CancellationToken cancellationToken)
         {
             await _serviceManager.ProductService.UpdateAsync(productId, ProductForUpdateDto, cancellationToken);
@@ -59,15 +61,23 @@ namespace WebAPI.Controllers
 
 
         // Delete Product
-        [HttpDelete("dalete/{ProductId}")]
+        [HttpDelete("delete/{productId}")]
         public async Task<IActionResult> DeleteProduct(int productId, CancellationToken cancellationToken)
         {
-            await _serviceManager.ProductService.DeleteAsync(productId, cancellationToken);
+            try
+            {
+                await _serviceManager.ProductService.DeleteAsync(productId, cancellationToken);
 
-            // Devolver un mensaje de éxito
-            return Ok("Producto eliminado exitosamente.");
+                // Devolver un mensaje de éxito
+                return Ok(new { message = "Producto eliminado exitosamente" });
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier excepción y devolver un mensaje de error
+                return StatusCode(500, new { error = "Error al eliminar el producto" });
+            }
         }
+
+
     }
-
-
 }

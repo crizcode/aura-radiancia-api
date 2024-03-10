@@ -59,13 +59,13 @@ namespace WebAPI.Controllers
 
 
         // Delete Category
-        [HttpDelete("dalete/{categoryId}")] 
+        [HttpDelete("delete/{categoryId}")] 
         public async Task<IActionResult> DeleteCategory(int categoryId, CancellationToken cancellationToken)
         {
             await _serviceManager.CategoryService.DeleteAsync(categoryId, cancellationToken);
 
             // Devolver un mensaje de éxito
-            return Ok("Categoria eliminada exitosamente.");
+            return Ok(categoryId);
         }
     }
 
