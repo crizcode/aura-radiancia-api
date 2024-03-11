@@ -111,6 +111,7 @@ namespace Infrastructure
                         @Description = product.Descripcion,
                         @Price = product.Precio,
                         @Stock = product.Stock,
+                        @CreationDate = product.CreationDate,
                         @CategoryId = product.CategoryId,
                         @SupplierId = product.SupplierId
                     };

@@ -101,11 +101,12 @@ namespace Services
             try
             {
 
-            // Actualizar los campos del producto con la información proporcionada en el DTO
+                // Actualizar los campos del producto con la información proporcionada en el DTO
             product.Name = productForUpdateDto.Name;
             product.Descripcion = productForUpdateDto.Descripcion;
             product.Precio = productForUpdateDto.Precio;
             product.Stock = productForUpdateDto.Stock;
+            product.CreationDate = productForUpdateDto.CreationDate;
             product.CategoryId = productForUpdateDto.CategoryId;
             product.SupplierId = productForUpdateDto.SupplierId;
 

@@ -1,3 +1,4 @@
+using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Services.Abstractions;
 using Shared;
@@ -11,7 +12,7 @@ namespace WebAPI.Controllers
         private readonly IServiceManager _serviceManager;
         public CategoryController(IServiceManager serviceManager) => _serviceManager = serviceManager;
 
-        // List Categorys
+        // List Categories
         [HttpGet("list")]
         public async Task<IActionResult> GetCategories(CancellationToken cancellationToken)
         {
@@ -20,7 +21,7 @@ namespace WebAPI.Controllers
         }
 
 
-        // List Categorys by Id
+        // List Category by Id
 
         [HttpGet("list/{categoryId}")]
         public async Task<IActionResult> GetCategoryById(int categoryId, CancellationToken cancellationToken)
@@ -35,26 +36,37 @@ namespace WebAPI.Controllers
         {
             try
             {
-                // Crear el Categoryo utilizando el servicio
+                // Crear el Categoria utilizando el servicio
                 await _serviceManager.CategoryService.CreateAsync(CategoryForCreationDto);
 
                 // Devolver un mensaje de éxito
-                return Ok("Categoria creada exitosamente.");
+                return Ok(new { message = "Categoria creado exitosamente" });
             }
             catch (Exception ex)
             {
-                // Devolver un mensaje de error en caso de excepción
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error al crear : " + ex.Message);
+                // Manejar cualquier excepción y devolver un mensaje de error
+                return StatusCode(500, new { error = "Error al crear el producto" });
             }
         }
+
 
 
         // Update Category
         [HttpPut("update/{categoryId}")]
         public async Task<IActionResult> UpdateCategory(int categoryId, [FromBody] CategoryDto CategoryForUpdateDto, CancellationToken cancellationToken)
         {
-            await _serviceManager.CategoryService.UpdateAsync(categoryId, CategoryForUpdateDto, cancellationToken);
-            return Ok("Cateogoria actualizada.");
+            try
+            {
+                await _serviceManager.CategoryService.UpdateAsync(categoryId, CategoryForUpdateDto, cancellationToken);
+
+                // Devolver un mensaje de éxito
+                return Ok(new { message = "Categoria actualizada exitosamente" });
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier excepción y devolver un mensaje de error
+                return StatusCode(500, new { error = "Error al actualizar el categoria" });
+            }
         }
 
 
@@ -62,10 +74,18 @@ namespace WebAPI.Controllers
         [HttpDelete("delete/{categoryId}")] 
         public async Task<IActionResult> DeleteCategory(int categoryId, CancellationToken cancellationToken)
         {
-            await _serviceManager.CategoryService.DeleteAsync(categoryId, cancellationToken);
+            try
+            {
+                await _serviceManager.CategoryService.DeleteAsync(categoryId, cancellationToken);
 
-            // Devolver un mensaje de éxito
-            return Ok(categoryId);
+                // Devolver un mensaje de éxito
+                return Ok(new { message = "Categoria eliminada exitosamente" });
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier excepción y devolver un mensaje de error
+                return StatusCode(500, new { error = "Error al eliminar el categoria" });
+            }
         }
     }
 

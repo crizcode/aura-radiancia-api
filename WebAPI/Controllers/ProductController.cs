@@ -39,7 +39,6 @@ namespace WebAPI.Controllers
                 await _serviceManager.ProductService.CreateAsync(ProductForCreationDto);
 
                 // Devolver un mensaje de éxito
-                // Devolver un mensaje de éxito
                 return Ok(new { message = "Producto creado exitosamente" });
             }
             catch (Exception ex)
@@ -55,10 +54,19 @@ namespace WebAPI.Controllers
         [HttpPut("update/{productId}")]
         public async Task<IActionResult> UpdateProduct(int productId, [FromBody] ProductDto ProductForUpdateDto, CancellationToken cancellationToken)
         {
-            await _serviceManager.ProductService.UpdateAsync(productId, ProductForUpdateDto, cancellationToken);
-            return Ok("Producto actualizada.");
+            try
+            {
+                await _serviceManager.ProductService.UpdateAsync(productId, ProductForUpdateDto, cancellationToken);
+       
+                // Devolver un mensaje de éxito
+                return Ok(new { message = "Producto actualizado exitosamente" });
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier excepción y devolver un mensaje de error
+                return StatusCode(500, new { error = "Error al actualizar el producto" });
+            }
         }
-
 
         // Delete Product
         [HttpDelete("delete/{productId}")]
