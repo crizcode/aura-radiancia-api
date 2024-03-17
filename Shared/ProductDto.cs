@@ -1,17 +1,16 @@
 ﻿using NSwag.Annotations;
-using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Shared
+namespace Infraestructure.Shared
 {
     public class ProductDto
     {
         public int Id { get; set; }
 
         [Required(ErrorMessage = "El nombre del producto es obligatorio.")]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
-        public string Descripcion { get; set; }
+        public string Descripcion { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "El precio del producto es obligatorio.")]
         [Range(0.01, double.MaxValue, ErrorMessage = "El precio debe ser mayor que cero.")]
@@ -27,7 +26,7 @@ namespace Shared
         [Required(ErrorMessage = "El ID de la categoría es obligatorio.")]
         public int CategoryId { get; set; }
 
-        [SwaggerIgnore]
+        [OpenApiIgnore]
         public string? CategoryName { get; private set; }
 
  
@@ -35,11 +34,9 @@ namespace Shared
         [Required(ErrorMessage = "El ID del proveedor es obligatorio.")]
         public int SupplierId { get; set; }
 
-        [SwaggerIgnore]
+        [OpenApiIgnore]
 
         public string? SupplierName { get; private set; }
-
-        // Resto de las propiedades sin cambios
 
         public ProductDto()
         {

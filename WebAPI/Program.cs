@@ -1,3 +1,4 @@
+using Domain.Helpers;
 using Presentacion;
 using System.Data;
 using System.Data.SqlClient;
@@ -8,6 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 ServiceConfiguration.Configure(builder.Services, builder.Configuration);
 builder.Services.AddControllers();
 
+// Agrega servicios necesarios para la aplicación
+builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+
 // Agrega servicios requeridos para Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -16,7 +20,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IDbConnection>(c =>
     new SqlConnection(builder.Configuration.GetConnectionString("conn")));
 
+
+
 var app = builder.Build();
+
 
 // Configura el middleware de la aplicación
 if (app.Environment.IsDevelopment())
@@ -35,8 +42,12 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
+
 // Habilitar CORS
 app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
+// Agregar el middleware JwtMiddleware a la cadena de middlewares
+app.UseMiddleware<JwtMiddleware>();
 
 app.UseAuthorization();
 

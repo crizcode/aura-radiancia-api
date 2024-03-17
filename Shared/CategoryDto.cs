@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Shared
+﻿
+namespace Infraestructure.Shared
 {
     public class CategoryDto
      {
             public int CategoryId { get; set; }
-            public string Name { get; set; }
-            public string Estado{ get; set; }
+            public string Name { get; set; } = string.Empty;
+            public string Estado { get; set; } = string.Empty;
    
 
             // Constructor vacío necesario para serialización/deserialización

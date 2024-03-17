@@ -1,16 +1,15 @@
 ﻿using AutoMapper;
 using Domain.Entities;
-using Shared;
+using Infraestructure.Shared;
+namespace Persistence.Mapping;
 
-namespace Persistence
+ public class MappingProfile : Profile
 {
-     public class MappingProfile : Profile
+    public MappingProfile()
     {
-        public MappingProfile()
-        {
-            CreateMap<Product, ProductDto>().ReverseMap();
-            CreateMap<Category, CategoryDto>().ReverseMap();
-            CreateMap<Supplier, SupplierDto>().ReverseMap();
-        }
+        CreateMap<Product, ProductDto>().ReverseMap();
+        CreateMap<Category, CategoryDto>().ReverseMap();
+        CreateMap<Supplier, SupplierDto>().ReverseMap();
+        CreateMap<Person, PersonDto>().ReverseMap();
     }
 }

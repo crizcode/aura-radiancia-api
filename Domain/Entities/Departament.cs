@@ -2,16 +2,11 @@
 
 namespace Domain.Entities
 {
-
-    public class Category
+    public class Departament
     {
-        public int CategoryId { get; set; }
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "El campo Name es obligatorio.")]
         public string Name { get; set; } 
-
-        [Required(ErrorMessage = "El campo Estado es obligatorio.")]
-        public string Estado { get; set; } 
     }
 }
-

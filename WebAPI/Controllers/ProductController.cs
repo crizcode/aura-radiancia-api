@@ -1,10 +1,12 @@
+using Domain.Services.Abstractions;
+using Infraestructure.Shared;
 using Microsoft.AspNetCore.Mvc;
-using Services.Abstractions;
-using Shared;
 
 namespace WebAPI.Controllers
 {
+
     [Route("api/v1/product")]
+
     [ApiController]
     public class ProductController : ControllerBase
     {
@@ -15,8 +17,16 @@ namespace WebAPI.Controllers
         [HttpGet("list")]
         public async Task<IActionResult> GetCategories(CancellationToken cancellationToken)
         {
-            var products = await _serviceManager.ProductService.GetAllAsync(cancellationToken);
-            return Ok(products);
+            try
+            {
+                var products = await _serviceManager.ProductService.GetAllAsync(cancellationToken);
+                return Ok(products);
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier excepción y devolver un mensaje de error
+                return StatusCode(500, new { error = "Error al listar los productos" + ex.Message });
+            }
         }
 
 
@@ -25,9 +35,19 @@ namespace WebAPI.Controllers
         [HttpGet("list/{productId}")]
         public async Task<IActionResult> GetProductById(int productId, CancellationToken cancellationToken)
         {
-            var productDto = await _serviceManager.ProductService.GetByIdAsync(productId, cancellationToken);
-            return Ok(productDto);
+
+            try
+            {
+                var productDto = await _serviceManager.ProductService.GetByIdAsync(productId, cancellationToken);
+                return Ok(productDto);
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier excepción y devolver un mensaje de error
+                return StatusCode(500, new { error = "Error al listar el producto" + ex.Message });
+            }
         }
+
 
         // Add Product
         [HttpPost("save")]
@@ -44,7 +64,7 @@ namespace WebAPI.Controllers
             catch (Exception ex)
             {
                 // Manejar cualquier excepción y devolver un mensaje de error
-                return StatusCode(500, new { error = "Error al crear el producto" });
+                return StatusCode(500, new { error = "Error al crear el producto " + ex.Message });
             }
         }
 
@@ -64,7 +84,7 @@ namespace WebAPI.Controllers
             catch (Exception ex)
             {
                 // Manejar cualquier excepción y devolver un mensaje de error
-                return StatusCode(500, new { error = "Error al actualizar el producto" });
+                return StatusCode(500, new { error = "Error al actualizar el producto " + ex.Message });
             }
         }
 
@@ -82,7 +102,7 @@ namespace WebAPI.Controllers
             catch (Exception ex)
             {
                 // Manejar cualquier excepción y devolver un mensaje de error
-                return StatusCode(500, new { error = "Error al eliminar el producto" });
+                return StatusCode(500, new { error = "Error al eliminar el producto " + ex.Message });
             }
         }
 

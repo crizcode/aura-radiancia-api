@@ -1,25 +1,24 @@
-﻿using Services.Abstractions;
+﻿using AutoMapper;
+using Domain.Helpers;
 using Domain.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+using Domain.Services.Abstractions;
+using Microsoft.Extensions.Options;
 
-namespace Services
+namespace Domain.Services
 {
     public sealed class ServiceManager : IServiceManager
     {
         private readonly Lazy<IProductService> _lazyProductService;
         private readonly Lazy<ICategoryService> _lazyCategoryService;
         private readonly Lazy<ISupplierService> _lazySupplierService;
+        private readonly Lazy<IPersonService> _lazyPersonService;
 
-        public ServiceManager(IRepositoryManager repositoryManager, IUnitOfWork unitOfWork, IMapper mapper)
+        public ServiceManager(IRepositoryManager repositoryManager, IUnitOfWork unitOfWork, IMapper mapper, IOptions<AppSettings> appSettings)
         {
             _lazyProductService = new Lazy<IProductService>(() => new ProductService(repositoryManager, unitOfWork, mapper));
             _lazyCategoryService = new Lazy<ICategoryService>(() => new CategoryService(repositoryManager, unitOfWork, mapper));
             _lazySupplierService = new Lazy<ISupplierService>(() => new SupplierService(repositoryManager, unitOfWork, mapper));
+            _lazyPersonService = new Lazy<IPersonService>(() => new PersonService(repositoryManager, unitOfWork, mapper, appSettings));
         }
 
         public IProductService ProductService
@@ -35,6 +34,11 @@ namespace Services
         public ISupplierService SupplierService
         {
             get { return _lazySupplierService.Value; }
+        }
+
+        public IPersonService PersonService
+        {
+            get { return _lazyPersonService.Value; }
         }
     }
 }

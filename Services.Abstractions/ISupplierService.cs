@@ -1,11 +1,6 @@
-﻿using Shared;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Infraestructure.Shared;
 
-namespace Services.Abstractions
+namespace Domain.Services.Abstractions
 {
     public interface ISupplierService
     {

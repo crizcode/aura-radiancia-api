@@ -1,13 +1,10 @@
-﻿using Domain.Entities;
-using Domain.Repositories;
-using Dapper;
-using System.Collections.Generic;
-using System.Data;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using Dapper;
+using Domain.Entities;
 using Domain.Exceptions;
+using Domain.Repositories;
+using System.Data;
 
-namespace Infrastructure
+namespace Infrastructure.Persistence
 {
     public class CategoryRepository : ICategoryRepository
     {

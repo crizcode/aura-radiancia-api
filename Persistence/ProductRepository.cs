@@ -1,13 +1,10 @@
-﻿using Domain.Entities;
-using Domain.Repositories;
-using Dapper;
-using System.Collections.Generic;
-using System.Data;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using Dapper;
+using Domain.Entities;
 using Domain.Exceptions;
+using Domain.Repositories;
+using System.Data;
 
-namespace Infrastructure
+namespace Infrastructure.Persistence
 {
     public class ProductRepository : IProductRepository
     {
@@ -18,6 +15,15 @@ namespace Infrastructure
         {
             _connection = connection;
         }
+
+
+
+        public Task<AuthenticateResponse> AuthenticateAsync(AuthenticateRequest model, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+
 
         // List Products 
         public async Task<IEnumerable<Product>> GetAllAsync(CancellationToken cancellationToken = default)
@@ -144,7 +150,6 @@ namespace Infrastructure
             var query = "usp_deleteProduct";
             await _connection.ExecuteAsync(query, new { @ProductId = product.Id }, commandType: CommandType.StoredProcedure);
         }
-
 
     }
 }

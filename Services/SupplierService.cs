@@ -2,15 +2,11 @@
 using Domain.Entities;
 using Domain.Exceptions;
 using Domain.Repositories;
-using Services.Abstractions;
-using Shared;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Domain.Services.Abstractions;
+using Infraestructure.Shared;
 
-namespace Services
+namespace Domain.Services
+
 {
     public sealed class SupplierService : ISupplierService
     {

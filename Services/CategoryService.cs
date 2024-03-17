@@ -1,16 +1,12 @@
 ﻿using AutoMapper;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using Domain.Entities;
 using Domain.Exceptions;
 using Domain.Repositories;
-using Services.Abstractions;
-using Shared;
+using Domain.Services.Abstractions;
+using Infraestructure.Shared;
 
-namespace Services
+
+namespace Domain.Services
 {
     public sealed class CategoryService : ICategoryService
     {

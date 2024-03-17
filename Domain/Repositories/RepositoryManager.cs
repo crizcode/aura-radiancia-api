@@ -1,23 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Domain.Repositories
+﻿namespace Domain.Repositories
 {
-    public class RepositoryManager : IRepositoryManager
+    public class RepositoryManager : IRepositoryManager, IDisposable
     {
-        public IProductRepository Products { get; private set; }
-        public ICategoryRepository Categories { get; private set; }
+        private readonly IProductRepository _productRepository;
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly ISupplierRepository _supplierRepository;
+        private readonly IPersonRepository _personRepository;
 
-        public ISupplierRepository Suppliers { get; private set; }
+        public IProductRepository Products => _productRepository;
+        public ICategoryRepository Categories => _categoryRepository;
+        public ISupplierRepository Suppliers => _supplierRepository;
+        public IPersonRepository People => _personRepository;
 
-        public RepositoryManager(IProductRepository productRepository, ICategoryRepository categoryRepository, ISupplierRepository suppliersRepository)
+        public RepositoryManager(IProductRepository productRepository, ICategoryRepository categoryRepository, ISupplierRepository supplierRepository, IPersonRepository personRepository)
         {
-            Products = productRepository;
-            Categories = categoryRepository;
-            Suppliers = suppliersRepository;
+            _productRepository = productRepository ?? throw new ArgumentNullException(nameof(productRepository));
+            _categoryRepository = categoryRepository ?? throw new ArgumentNullException(nameof(categoryRepository));
+            _supplierRepository = supplierRepository ?? throw new ArgumentNullException(nameof(supplierRepository));
+            _personRepository = personRepository ?? throw new ArgumentNullException(nameof(personRepository));
         }
 
         public void Save()
@@ -27,7 +27,17 @@ namespace Domain.Repositories
 
         public void Dispose()
         {
-            // Implementación para liberar recursos
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+
+            }
+
         }
     }
 }

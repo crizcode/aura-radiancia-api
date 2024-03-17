@@ -1,7 +1,6 @@
-using Domain.Entities;
+using Domain.Services.Abstractions;
+using Infraestructure.Shared;
 using Microsoft.AspNetCore.Mvc;
-using Services.Abstractions;
-using Shared;
 
 namespace WebAPI.Controllers
 {
@@ -15,19 +14,39 @@ namespace WebAPI.Controllers
         // List Suppliers
         [HttpGet("list")]
         public async Task<IActionResult> GetSuppliers(CancellationToken cancellationToken)
-        {
-            var Suppliers = await _serviceManager.SupplierService.GetAllAsync(cancellationToken);
-            return Ok(Suppliers);
+        {  
+           try
+            {
+                var Suppliers = await _serviceManager.SupplierService.GetAllAsync(cancellationToken);
+                return Ok(Suppliers);
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier excepción y devolver un mensaje de error
+                return StatusCode(500, new { error = "Error al listar proveedor" + ex.Message
+});
+            }
         }
-
 
         // List Suppliers by Id
 
         [HttpGet("list/{supplierId}")]
         public async Task<IActionResult> GetSupplierById(int supplierId, CancellationToken cancellationToken)
         {
-            var supplierDto = await _serviceManager.SupplierService.GetByIdAsync(supplierId, cancellationToken);
-            return Ok(supplierDto);
+
+            try
+            {
+                var supplierDto = await _serviceManager.SupplierService.GetByIdAsync(supplierId, cancellationToken);
+                return Ok(supplierDto);
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier excepción y devolver un mensaje de error
+                return StatusCode(500, new
+                {
+                    error = "Error al listar el proveedor" + ex.Message
+                });
+            }
         }
 
         // Add Supplier
@@ -45,7 +64,7 @@ namespace WebAPI.Controllers
             catch (Exception ex)
             {
                 // Manejar cualquier excepción y devolver un mensaje de error
-                return StatusCode(500, new { error = "Error al crear el proveedor" });
+                return StatusCode(500, new { error = "Error al crear el proveedor " + ex.Message });
             }
         }
 
@@ -63,7 +82,7 @@ namespace WebAPI.Controllers
             catch (Exception ex)
             {
                 // Manejar cualquier excepción y devolver un mensaje de error
-                return StatusCode(500, new { error = "Error al actualizar el proveedor" });
+                return StatusCode(500, new { error = "Error al actualizar el proveedor " + ex.Message});
             }
         }
 
@@ -82,7 +101,7 @@ namespace WebAPI.Controllers
             catch (Exception ex)
             {
                 // Manejar cualquier excepción y devolver un mensaje de error
-                return StatusCode(500, new { error = "Error al eliminar el proveedor" });
+                return StatusCode(500, new { error = "Error al eliminar el proveedor " + ex.Message});
             }
         }
     }

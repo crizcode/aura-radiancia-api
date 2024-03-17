@@ -1,25 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Entities
 {
     public class Product
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Descripcion { get; set; }
-        public decimal Precio { get; set; }
+
+        [Required(ErrorMessage = "El campo Name es obligatorio.")]
+        public string Name { get; set; } 
+
+        [Required(ErrorMessage = "El campo Descripcion es obligatorio.")]
+        public string Descripcion { get; set; } 
+
+        [Required(ErrorMessage = "El campo Precio es obligatorio.")]
+        public decimal Precio { get; set; } 
+
+        [Required(ErrorMessage = "El campo Stock es obligatorio.")]
         public int Stock { get; set; }
 
+        [Required(ErrorMessage = "El campo CreationDate es obligatorio.")]
         public DateTime CreationDate { get; set; }
 
         // Propiedades de navegación para las relaciones con Category y Supplier
+        [Required(ErrorMessage = "El campo CategoryId es obligatorio.")]
         public int CategoryId { get; set; }
-        public Category Category { get; set; }
+        public Category Category { get; set; } 
 
+
+        [Required(ErrorMessage = "El campo SupplierId es obligatorio.")]
         public int SupplierId { get; set; }
         public Supplier Supplier { get; set; }
     }

@@ -1,13 +1,15 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using AutoMapper;
-using Domain.Repositories;
-using Services.Abstractions;
-using Services;
-using Persistence;
+﻿using Domain.Repositories;
+using Domain.Services;
+using Domain.Services.Abstractions;
+using Infrastructure.Persistence;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using Persistence.Mapping;
 using System.Data;
 using System.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
-using Infrastructure;
+using System.Text;
+
 
 namespace Presentacion
 {
@@ -18,12 +20,15 @@ namespace Presentacion
             // Registra AutoMapper
             services.AddAutoMapper(typeof(Startup), typeof(MappingProfile));
 
+            // Configura Swagger y la seguridad JWT
+            ConfigureSwagger(services);
+
             // Registra IDbConnection
             services.AddScoped<IDbConnection>(provider =>
             {
                 var connectionString = configuration.GetConnectionString("conn");
                 return new SqlConnection(connectionString);
-            }); ;
+            });
 
             // Registra los servicios
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -36,7 +41,45 @@ namespace Presentacion
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ISupplierService, SupplierService>();
             services.AddScoped<IServiceManager, ServiceManager>();
-  
+            services.AddScoped<IPersonRepository, PersonRepository>();
+            services.AddScoped<IPersonService, PersonService>();
+
         }
+
+        private static void ConfigureSwagger(IServiceCollection services)
+        {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Aura Radiancia API", Version = "v1" });
+
+                // Configurar la seguridad para JWT
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Introduce tu token JWT en este formato: Bearer {token}",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT"
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] {}
+                    }
+                });
+            });
+
+        }
+
     }
 }
