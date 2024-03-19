@@ -30,12 +30,19 @@ public class JwtMiddleware
             return;
         }
 
+        // Verifica si la solicitud es para crear una persona y permite el acceso sin autenticación
+        if (path.HasValue && path.Value.EndsWith("/api/v1/person/save"))
+        {
+            // Permitir acceso sin autenticación al método de creación de persona
+            await _next(context);
+            return;
+        }
+
         // Se obtiene el token del encabezado de autorización
         var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
         if (token == null)
         {
-            // No se proporcionó ningún token en el encabezado de autorización
             await HandleUnauthorizedRequest(context);
             return;
         }
@@ -45,7 +52,7 @@ public class JwtMiddleware
             // Se adjunta el usuario al contexto
             await AttachPersonToContextAsync(context, userService, token);
 
-            // Se llama al siguiente middleware en la cadena
+            // Llamar al siguiente middleware en la cadena
             await _next(context);
         }
         catch (Exception ex)
@@ -53,7 +60,6 @@ public class JwtMiddleware
             // Manejar el error adecuadamente, como registrar o lanzar una excepción
             Console.WriteLine($"Error attaching user to context: {ex.Message}");
             await HandleUnauthorizedRequest(context);
-            // No se llama a _next(context) aquí para evitar continuar con el siguiente middleware
         }
     }
 
@@ -85,13 +91,15 @@ public class JwtMiddleware
             // Manejar el error adecuadamente, como registrar o lanzar una excepción
             Console.WriteLine($"Error attaching user to context: {ex.Message}");
             await HandleUnauthorizedRequest(context);
-            throw; // Propagar la excepción para manejo posterior si es necesario
+            throw; 
         }
     }
 
     private async Task HandleUnauthorizedRequest(HttpContext context)
     {
-        context.Response.StatusCode = 401; // Unauthorized
-        await context.Response.WriteAsync("El encabezado de autorización es requerido.");
+        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+        context.Response.ContentType = "application/json";
+        await context.Response.WriteAsync("{\"error\": \"No autorizado: no tiene permiso para realizar esta operación.\"}");
     }
+
 }

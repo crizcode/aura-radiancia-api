@@ -11,5 +11,6 @@ namespace Persistence.Mapping;
         CreateMap<Category, CategoryDto>().ReverseMap();
         CreateMap<Supplier, SupplierDto>().ReverseMap();
         CreateMap<Person, PersonDto>().ReverseMap();
+        CreateMap<Role, RoleDto>().ReverseMap();
     }
 }

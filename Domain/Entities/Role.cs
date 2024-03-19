@@ -7,6 +7,6 @@ namespace Domain.Entities
         public int Id { get; set; }
 
         [Required(ErrorMessage = "El campo Name es obligatorio.")]
-        public string RolName { get; set; } 
+        public string RoleName { get; set; } 
     }
 }

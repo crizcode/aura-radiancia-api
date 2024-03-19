@@ -22,7 +22,6 @@ namespace WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                // Manejar cualquier excepción y devolver un mensaje de error
                 return StatusCode(500, new { error = "Error al listar proveedor" + ex.Message
 });
             }
@@ -41,7 +40,6 @@ namespace WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                // Manejar cualquier excepción y devolver un mensaje de error
                 return StatusCode(500, new
                 {
                     error = "Error al listar el proveedor" + ex.Message
@@ -55,15 +53,12 @@ namespace WebAPI.Controllers
         {
             try
             {
-                // Crear el Categoria utilizando el servicio
                 await _serviceManager.SupplierService.CreateAsync(SupplierForCreationDto);
 
-                // Devolver un mensaje de éxito
                 return Ok(new { message = "Proveedor creado exitosamente" });
             }
             catch (Exception ex)
             {
-                // Manejar cualquier excepción y devolver un mensaje de error
                 return StatusCode(500, new { error = "Error al crear el proveedor " + ex.Message });
             }
         }
@@ -76,12 +71,10 @@ namespace WebAPI.Controllers
             {
                 await _serviceManager.SupplierService.UpdateAsync(supplierId, SupplierForUpdateDto, cancellationToken);
 
-                // Devolver un mensaje de éxito
                 return Ok(new { message = "Proveedor actualizado exitosamente" });
             }
             catch (Exception ex)
             {
-                // Manejar cualquier excepción y devolver un mensaje de error
                 return StatusCode(500, new { error = "Error al actualizar el proveedor " + ex.Message});
             }
         }
@@ -95,12 +88,10 @@ namespace WebAPI.Controllers
             {
                 await _serviceManager.SupplierService.DeleteAsync(supplierId, cancellationToken);
 
-                // Devolver un mensaje de éxito
                 return Ok(new { message = "Proveedor eliminado exitosamente" });
             }
             catch (Exception ex)
             {
-                // Manejar cualquier excepción y devolver un mensaje de error
                 return StatusCode(500, new { error = "Error al eliminar el proveedor " + ex.Message});
             }
         }

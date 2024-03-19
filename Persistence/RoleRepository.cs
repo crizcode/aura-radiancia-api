@@ -4,57 +4,59 @@ using Domain.Exceptions;
 using Domain.Repositories;
 using System.Data;
 
-
 namespace Infrastructure.Persistence
 {
-    public class SupplierRepository : ISupplierRepository
+    public class RoleRepository : IRoleRepository
     {
         private readonly IDbConnection _connection;
-
-        public SupplierRepository(IDbConnection connection)
+        public RoleRepository(IDbConnection connection)
         {
             _connection = connection;
         }
 
-        // List suppliers 
-        public async Task<IEnumerable<Supplier>> GetAllAsync(CancellationToken cancellationToken = default)
+
+        // List roles
+        public async Task<IEnumerable<Role>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            var suppliers = await _connection.QueryAsync<Supplier>(
-                "usp_listSuppliers", commandType: CommandType.StoredProcedure
+            var roles = await _connection.QueryAsync<Role>(
+                "usp_listRoles", commandType: CommandType.StoredProcedure
             );
 
-            return suppliers;
+            return roles;
         }
 
-        // List Supplier By Id
-        public async Task<Supplier> GetByIdAsync(int supplierId, CancellationToken cancellationToken = default)
-        {
-            string query = "usp_selectSupplierById";
+        // List Role By Id
 
-            Supplier? supplier = await _connection.QueryFirstOrDefaultAsync<Supplier>(
-                query, new { @SupplierId = supplierId }, commandType: CommandType.StoredProcedure
+        public async Task<Role> GetByIdAsync(int roleId, CancellationToken cancellationToken = default)
+        {
+            string query = "usp_selectRoleById";
+
+            // Ejecutar el procedimiento almacenado para obtener la rolea por su ID
+            Role? role = await _connection.QueryFirstOrDefaultAsync<Role>(
+                query, new { @Id = roleId }, commandType: CommandType.StoredProcedure
             );
 
-            if (supplier == null)
+            // Verificar si la rolea fue encontrado
+            if (role == null)
             {
-                throw new CategoryNotFoundExceptions(supplierId);
+                throw new RoleNotFoundExceptions(roleId);
             }
 
-            return supplier;
+            return role;
         }
 
-        public async Task AddAsync(Supplier supplier, CancellationToken cancellationToken = default)
+        public async Task AddAsync(Role role, CancellationToken cancellationToken = default)
         {
             _connection.Open();
             using (var transaction = _connection.BeginTransaction())
             {
                 try
                 {
-                    var query = "usp_insertSupplier";
+
+                    var query = "usp_insertRole";
                     var parameters = new
                     {
-                        @Name = supplier.Name,
-                        @Estado = supplier.Estado,
+                        @RoleName = role.RoleName,
                     };
 
                     await _connection.ExecuteAsync(query, parameters, commandType: CommandType.StoredProcedure, transaction: transaction);
@@ -67,7 +69,7 @@ namespace Infrastructure.Persistence
 
                     transaction.Rollback();
 
-                    Console.WriteLine($"Error crear el suppliero: {ex.Message}");
+                    Console.WriteLine($"Error crear el rol: {ex.Message}");
 
                     throw;
                 }
@@ -78,19 +80,19 @@ namespace Infrastructure.Persistence
             }
         }
 
-        public async Task UpdateAsync(Supplier supplier, CancellationToken cancellationToken = default)
+        public async Task UpdateAsync(Role role, CancellationToken cancellationToken = default)
         {
             _connection.Open();
             using (var transaction = _connection.BeginTransaction())
             {
                 try
                 {
-                    var query = "usp_updateSupplier";
+                    var query = "usp_updateRole";
                     var parameters = new
                     {
-                        @SupplierId = supplier.SupplierId,
-                        @Name = supplier.Name,
-                        @Estado = supplier.Estado,
+                        @RoleName = role.RoleName,
+                        @Id = role.Id
+
                     };
 
                     await _connection.ExecuteAsync(query, parameters, commandType: CommandType.StoredProcedure, transaction: transaction);
@@ -112,11 +114,12 @@ namespace Infrastructure.Persistence
             }
         }
 
-        // Delete Supplier
-        public async Task RemoveAsync(Supplier supplier, CancellationToken cancellationToken = default)
+        // Delete Role
+        public async Task RemoveAsync(Role role, CancellationToken cancellationToken = default)
         {
-            var query = "usp_deleteSupplier";
-            await _connection.ExecuteAsync(query, new { @SupplierId = supplier.SupplierId}, commandType: CommandType.StoredProcedure);
+            var query = "usp_deleteRole";
+            await _connection.ExecuteAsync(query, new { @Id = role.Id }, commandType: CommandType.StoredProcedure);
         }
+
     }
 }

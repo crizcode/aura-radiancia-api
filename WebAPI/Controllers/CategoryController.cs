@@ -23,7 +23,6 @@ namespace WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                // Manejar cualquier excepción y devolver un mensaje de error
                 return StatusCode(500, new { error = "Error al listar la categoria " + ex.Message });
             }
         }
@@ -42,7 +41,6 @@ namespace WebAPI.Controllers
     }
             catch (Exception ex)
             {
-                // Manejar cualquier excepción y devolver un mensaje de error
                 return StatusCode(500, new { error = "Error al listar la categoria " + ex.Message
 });
             }
@@ -55,19 +53,14 @@ namespace WebAPI.Controllers
         {
             try
             {
-                // Crear el Categoria utilizando el servicio
                 await _serviceManager.CategoryService.CreateAsync(CategoryForCreationDto);
-
-                // Devolver un mensaje de éxito
                 return Ok(new { message = "Categoria creado exitosamente" });
             }
             catch (Exception ex)
             {
-                // Manejar cualquier excepción y devolver un mensaje de error
                 return StatusCode(500, new { error = "Error al crear la categoria " + ex.Message });
             }
         }
-
 
 
         // Update Category
@@ -77,13 +70,10 @@ namespace WebAPI.Controllers
             try
             {
                 await _serviceManager.CategoryService.UpdateAsync(categoryId, CategoryForUpdateDto, cancellationToken);
-
-                // Devolver un mensaje de éxito
                 return Ok(new { message = "Categoria actualizada exitosamente" });
             }
             catch (Exception ex)
             {
-                // Manejar cualquier excepción y devolver un mensaje de error
                 return StatusCode(500, new { error = "Error al actualizar la categoria " + ex.Message });
             }
         }
@@ -96,13 +86,10 @@ namespace WebAPI.Controllers
             try
             {
                 await _serviceManager.CategoryService.DeleteAsync(categoryId, cancellationToken);
-
-                // Devolver un mensaje de éxito
                 return Ok(new { message = "Categoria eliminada exitosamente" });
             }
             catch (Exception ex)
             {
-                // Manejar cualquier excepción y devolver un mensaje de error
                 return StatusCode(500, new { error = "Error al eliminar la categoria " + ex.Message });
             }
         }

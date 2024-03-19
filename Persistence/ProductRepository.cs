@@ -10,19 +10,15 @@ namespace Infrastructure.Persistence
     {
         private readonly IDbConnection _connection;
 
-
         public ProductRepository(IDbConnection connection)
         {
             _connection = connection;
         }
 
-
-
         public Task<AuthenticateResponse> AuthenticateAsync(AuthenticateRequest model, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
-
 
 
         // List Products 
@@ -37,17 +33,14 @@ namespace Infrastructure.Persistence
         }
 
         // List Product By Id
-
         public async Task<Product> GetByIdAsync(int productId, CancellationToken cancellationToken = default)
         {
-            string query = "usp_selectProductById"; 
+            string query = "usp_selectProductById";
 
-            // Ejecutar el procedimiento almacenado para obtener el producto por su ID
             Product? product = await _connection.QueryFirstOrDefaultAsync<Product>(
-                query,new { @ProductId = productId },commandType: CommandType.StoredProcedure
+                query, new { @ProductId = productId }, commandType: CommandType.StoredProcedure
             );
 
-            // Verificar si el producto fue encontrado
             if (product == null)
             {
                 throw new ProductNotFoundExceptions(productId);
@@ -56,12 +49,9 @@ namespace Infrastructure.Persistence
             return product;
         }
 
-
         public async Task AddAsync(Product product, CancellationToken cancellationToken = default)
         {
-            // Abrir la conexión
             _connection.Open();
-
             using (var transaction = _connection.BeginTransaction())
             {
                 try
@@ -79,16 +69,15 @@ namespace Infrastructure.Persistence
 
                     await _connection.ExecuteAsync(query, parameters, commandType: CommandType.StoredProcedure, transaction: transaction);
 
-                    // Commit the transaction
                     transaction.Commit();
                 }
                 catch (Exception ex)
                 {
- 
+
                     transaction.Rollback();
-     
+
                     Console.WriteLine($"Error crear el producto: {ex.Message}");
-    
+
                     throw;
                 }
                 finally
@@ -98,13 +87,9 @@ namespace Infrastructure.Persistence
             }
         }
 
-
-
         public async Task UpdateAsync(Product product, CancellationToken cancellationToken = default)
         {
-    
             _connection.Open();
-
             using (var transaction = _connection.BeginTransaction())
             {
                 try
@@ -129,22 +114,18 @@ namespace Infrastructure.Persistence
                 catch (Exception ex)
                 {
                     transaction.Rollback();
-                    // Log error
                     Console.WriteLine($"Error de actualización: {ex.Message}");
                     throw;
                 }
                 finally
                 {
-                 
+
                     _connection.Close();
                 }
             }
         }
 
-
-
         // Delete Product
-
         public async Task RemoveAsync(Product product, CancellationToken cancellationToken = default)
         {
             var query = "usp_deleteProduct";

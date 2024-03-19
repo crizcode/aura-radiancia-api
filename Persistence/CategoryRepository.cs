@@ -10,7 +10,6 @@ namespace Infrastructure.Persistence
     {
         private readonly IDbConnection _connection;
 
-
         public CategoryRepository(IDbConnection connection)
         {
             _connection = connection;
@@ -27,17 +26,14 @@ namespace Infrastructure.Persistence
         }
 
         // List Category By Id
-
         public async Task<Category> GetByIdAsync(int categoryId, CancellationToken cancellationToken = default)
         {
             string query = "usp_selectCategoryById";
 
-            // Ejecutar el procedimiento almacenado para obtener la categoria por su ID
             Category? category = await _connection.QueryFirstOrDefaultAsync<Category>(
                 query, new { @CategoryId = categoryId }, commandType: CommandType.StoredProcedure
             );
 
-            // Verificar si la categoria fue encontrado
             if (category == null)
             {
                 throw new CategoryNotFoundExceptions(categoryId);
@@ -46,12 +42,9 @@ namespace Infrastructure.Persistence
             return category;
         }
 
-
         public async Task AddAsync(Category category, CancellationToken cancellationToken = default)
         {
-            // Abrir la conexión
             _connection.Open();
-
             using (var transaction = _connection.BeginTransaction())
             {
                 try
@@ -64,8 +57,6 @@ namespace Infrastructure.Persistence
                     };
 
                     await _connection.ExecuteAsync(query, parameters, commandType: CommandType.StoredProcedure, transaction: transaction);
-
-                    // Commit the transaction
                     transaction.Commit();
                 }
                 catch (Exception ex)
@@ -84,12 +75,9 @@ namespace Infrastructure.Persistence
             }
         }
 
-
         public async Task UpdateAsync(Category category, CancellationToken cancellationToken = default)
         {
-
             _connection.Open();
-
             using (var transaction = _connection.BeginTransaction())
             {
                 try
@@ -109,7 +97,6 @@ namespace Infrastructure.Persistence
                 catch (Exception ex)
                 {
                     transaction.Rollback();
-                    // Log error
                     Console.WriteLine($"Error de actualización: {ex.Message}");
                     throw;
                 }
@@ -121,16 +108,11 @@ namespace Infrastructure.Persistence
             }
         }
 
-
-
         // Delete Category
-
         public async Task RemoveAsync(Category category, CancellationToken cancellationToken = default)
         {
             var query = "usp_deleteCategory";
             await _connection.ExecuteAsync(query, new { @categoryId = category.CategoryId }, commandType: CommandType.StoredProcedure);
         }
-
-
     }
 }

@@ -28,12 +28,10 @@ namespace Infraestructure.Shared
         [Required]
         public int RoleId { get; set; }
 
-        // Constructor vacío
         public PersonDto()
         {
         }
 
-        // Constructor con parámetros
         public PersonDto(int id, string nombre, string apellido, string email, string user, string pass, int departamentoId, int rolId)
         {
             Id = id;

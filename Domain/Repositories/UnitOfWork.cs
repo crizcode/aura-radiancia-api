@@ -11,7 +11,7 @@ namespace Domain.Repositories
         {
             // Aquí puedes incluir la lógica para guardar los cambios en la base de datos de forma asincrónica
             // Por ejemplo:
-            // return _dbContext.SaveChangesAsync(cancellationToken);
+            // 
 
             // Como ejemplo, simplemente devolvemos una tarea completada
             return Task.FromResult(0);
@@ -20,7 +20,7 @@ namespace Domain.Repositories
         public void Dispose()
         {
             // Aquí puedes realizar tareas de limpieza si es necesario
-            // Por ejemplo, liberar recursos no administrados.
+            // Ejm. liberar recursos no administrados.
             GC.SuppressFinalize(this);
         }
     }

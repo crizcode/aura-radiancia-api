@@ -30,7 +30,6 @@ namespace Presentacion
                 return new SqlConnection(connectionString);
             });
 
-            // Registra los servicios
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IServiceManager, ServiceManager>();
             services.AddScoped<IProductRepository, ProductRepository>();
@@ -43,6 +42,8 @@ namespace Presentacion
             services.AddScoped<IServiceManager, ServiceManager>();
             services.AddScoped<IPersonRepository, PersonRepository>();
             services.AddScoped<IPersonService, PersonService>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IRoleService, RoleService>();
 
         }
 

@@ -40,7 +40,7 @@ namespace Domain.Services
             if (user == null) return null;
 
             // Obtener el tipo de rol del usuario
-            var role = user.RoleId; // Supongamos que RoleId es el campo que almacena el tipo de rol del usuario
+            var role = user.RoleId;
 
             // Generar el token JWT incluyendo el tipo de rol
             var token = GenerateJwtToken(user, role);
@@ -86,7 +86,6 @@ namespace Domain.Services
         {
             var person = _mapper.Map<Person>(PersonForCreationDto);
 
-            // Llama al método para insertar lapersona utilizando el procedimiento almacenado
             await _repositoryManager.People.AddAsync(person);
 
             return _mapper.Map<PersonDto>(person);
@@ -96,10 +95,8 @@ namespace Domain.Services
 
         public async Task UpdateAsync(int personId, PersonDto personForUpdateDto, CancellationToken cancellationToken = default)
         {
-            // Obtener lapersona de la base de datos
             var person = await _repositoryManager.People.GetByIdAsync(personId, cancellationToken);
 
-            // Verificar si lapersona
             if (person == null)
             {
                 throw new PersonNotFoundExceptions(personId);
@@ -107,8 +104,6 @@ namespace Domain.Services
 
             try
             {
-
-                // Actualizar los campos de la persona con la información proporcionada en la DTO
                 person.UserName = personForUpdateDto.UserName;
                 person.Pass = personForUpdateDto.Pass;
                 person.Nombre = personForUpdateDto.Nombre;
@@ -117,30 +112,24 @@ namespace Domain.Services
                 person.DepartmentId = personForUpdateDto.DepartmentId;
                 person.RoleId = personForUpdateDto.RoleId;
 
-                // Guardar los cambios en la base de datos
                 await _repositoryManager.People.UpdateAsync(person, cancellationToken);
 
             }
             catch (Exception ex)
             {
-                // Manejar cualquier excepción
-                Console.WriteLine($"An error occurred while updating the person: {ex.Message}");
-                throw; // por implement excepción para que sea manejada en un nivel superior si es necesario.
+                throw;
             }
         }
 
         public async Task DeleteAsync(int personId, CancellationToken cancellationToken = default)
         {
-            // Obtener lapersona por su ID
             var person = await _repositoryManager.People.GetByIdAsync(personId, cancellationToken);
 
-            // Verificar si lapersona existe
             if (person == null)
             {
                 throw new PersonNotFoundExceptions(personId);
             }
 
-            // Llamar al método RemoveAsync del repositorio para eliminar lapersona
             await _repositoryManager.People.RemoveAsync(person, cancellationToken);
         }
 

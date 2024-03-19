@@ -8,5 +8,7 @@
 
         IPersonService PersonService { get; }
 
+        IRoleService RoleService { get; }
+
     }
 }

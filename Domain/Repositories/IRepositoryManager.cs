@@ -7,5 +7,7 @@
         ISupplierRepository Suppliers { get; }
         IPersonRepository People { get; }
 
+        IRoleRepository Roles { get; }
+
     }
 }

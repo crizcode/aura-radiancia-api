@@ -12,17 +12,11 @@ public class Startup
 
     public IConfiguration Configuration { get; }
 
-    // Método para configurar servicios
     public void ConfigureServices(IServiceCollection services)
     {
-        // Configuración de servicios necesarios para la aplicación
         services.AddControllers();
         services.AddSession();
 
-        // JwtMiddleware
-        // services.AddScoped<JwtMiddleware>();
-
-        // Configuración del CORS
         ConfigureCors(services);
 
         // Configuración de la autenticación JWT
@@ -43,7 +37,6 @@ public class Startup
             };
         });
     }
-    // Método para configurar CORS
     private void ConfigureCors(IServiceCollection services)
     {
         services.AddCors(options =>
@@ -58,28 +51,22 @@ public class Startup
         });
     }
 
-    // Método para configurar la aplicación y sus middlewares
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         if (env.IsDevelopment())
         {
-            // Middleware para página de error detallada en entorno de desarrollo
             app.UseDeveloperExceptionPage();
 
-            // Middleware para servir Swagger UI en entorno de desarrollo
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Aura Radiancia v1");
 
-                // Configuración del botón "Authorize" en Swagger UI
                 c.OAuthClientId("swagger-client");
                 c.OAuthAppName("Swagger Client");
                 c.OAuthUsePkce();
             });
         }
-
-
 
         // Middleware para redirección HTTPS y servir archivos estáticos
         app.UseHttpsRedirection();

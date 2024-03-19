@@ -21,11 +21,9 @@ namespace Domain.Entities
         [Required(ErrorMessage = "El campo CreationDate es obligatorio.")]
         public DateTime CreationDate { get; set; }
 
-        // Propiedades de navegación para las relaciones con Category y Supplier
         [Required(ErrorMessage = "El campo CategoryId es obligatorio.")]
         public int CategoryId { get; set; }
         public Category Category { get; set; } 
-
 
         [Required(ErrorMessage = "El campo SupplierId es obligatorio.")]
         public int SupplierId { get; set; }

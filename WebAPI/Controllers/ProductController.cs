@@ -24,7 +24,6 @@ namespace WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                // Manejar cualquier excepción y devolver un mensaje de error
                 return StatusCode(500, new { error = "Error al listar los productos" + ex.Message });
             }
         }
@@ -43,7 +42,6 @@ namespace WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                // Manejar cualquier excepción y devolver un mensaje de error
                 return StatusCode(500, new { error = "Error al listar el producto" + ex.Message });
             }
         }
@@ -55,15 +53,12 @@ namespace WebAPI.Controllers
         {
             try
             {
-                // Crear el Producto utilizando el servicio
                 await _serviceManager.ProductService.CreateAsync(ProductForCreationDto);
 
-                // Devolver un mensaje de éxito
                 return Ok(new { message = "Producto creado exitosamente" });
             }
             catch (Exception ex)
             {
-                // Manejar cualquier excepción y devolver un mensaje de error
                 return StatusCode(500, new { error = "Error al crear el producto " + ex.Message });
             }
         }
@@ -78,12 +73,10 @@ namespace WebAPI.Controllers
             {
                 await _serviceManager.ProductService.UpdateAsync(productId, ProductForUpdateDto, cancellationToken);
        
-                // Devolver un mensaje de éxito
                 return Ok(new { message = "Producto actualizado exitosamente" });
             }
             catch (Exception ex)
             {
-                // Manejar cualquier excepción y devolver un mensaje de error
                 return StatusCode(500, new { error = "Error al actualizar el producto " + ex.Message });
             }
         }
@@ -96,12 +89,10 @@ namespace WebAPI.Controllers
             {
                 await _serviceManager.ProductService.DeleteAsync(productId, cancellationToken);
 
-                // Devolver un mensaje de éxito
                 return Ok(new { message = "Producto eliminado exitosamente" });
             }
             catch (Exception ex)
             {
-                // Manejar cualquier excepción y devolver un mensaje de error
                 return StatusCode(500, new { error = "Error al eliminar el producto " + ex.Message });
             }
         }

@@ -33,7 +33,6 @@ namespace WebAPI.Controllers
         {
             try
             {
-                // Ahora puedes continuar con la lógica para listar personas
                 var people = await _serviceManager.PersonService.GetAllAsync(cancellationToken);
                 return Ok(people);
             }
@@ -56,7 +55,6 @@ namespace WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                // Manejar cualquier excepción y devolver un mensaje de error
                 return StatusCode(500, new
                 {
                     error = "Error al listar la persona " + ex.Message});
@@ -65,20 +63,19 @@ namespace WebAPI.Controllers
 
 
         // Add Person
+
+        [AllowAnonymous]
         [HttpPost("save")]
         public async Task<IActionResult> CreatePerson([FromBody] PersonDto PersonForCreationDto)
         {
             try
             {
-                // Crear el Persona utilizando el servicio
                 await _serviceManager.PersonService.CreateAsync(PersonForCreationDto);
 
-                // Devolver un mensaje de éxito
                 return Ok(new { message = "Persona creada exitosamente" });
             }
             catch (Exception ex)
             {
-                // Manejar cualquier excepción y devolver un mensaje de error
                 return StatusCode(500, new { error = "Error al crear la persona " + ex.Message });
             }
         }
@@ -93,12 +90,10 @@ namespace WebAPI.Controllers
             {
                 await _serviceManager.PersonService.UpdateAsync(personId, PersonForUpdateDto, cancellationToken);
 
-                // Devolver un mensaje de éxito
                 return Ok(new { message = "Persona actualizada exitosamente" });
             }
             catch (Exception ex)
             {
-                // Manejar cualquier excepción y devolver un mensaje de error
                 return StatusCode(500, new { error = "Error al actualizar la persona " + ex.Message });
             }
         }
@@ -112,12 +107,10 @@ namespace WebAPI.Controllers
             {
                 await _serviceManager.PersonService.DeleteAsync(personId, cancellationToken);
 
-                // Devolver un mensaje de éxito
                 return Ok(new { message = "Persona eliminada exitosamente" });
             }
             catch (Exception ex)
             {
-                // Manejar cualquier excepción y devolver un mensaje de error
                 return StatusCode(500, new { error = "Error al eliminar persona " + ex.Message });
             }
         }

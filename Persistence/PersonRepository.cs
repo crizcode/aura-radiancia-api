@@ -17,8 +17,6 @@ namespace Infrastructure.Persistence
             _connection = connection;
         }
 
-
-
         public async Task<Person> SearchPersonByCredentialsAsync(string userName, string password, CancellationToken cancellationToken = default)
         {
             var parameters = new { UserName = userName, Password = Encryptor.Encrypt(password) };
@@ -26,21 +24,8 @@ namespace Infrastructure.Persistence
 
             var result = await _connection.QueryFirstOrDefaultAsync<Person>("usp_selectPerson", parameters, commandType: CommandType.StoredProcedure);
 
-            // Verifica si se encontró un resultado
-            if (result != null)
-            {
-                // Agrega un mensaje de registro (log) para mostrar el resultado encontrado
-                Console.WriteLine($"Se encontró una persona con UserName = '{result.UserName}' y Password = '{result.Pass}'.");
-            }
-            else
-            {
-                // Agrega un mensaje de registro (log) para indicar que no se encontró ningún resultado
-                Console.WriteLine("No se encontró ninguna persona que coincida con los parámetros proporcionados.");
-            }
-
             return result;
         }
-
 
 
         // List people
@@ -58,8 +43,7 @@ namespace Infrastructure.Persistence
         public async Task<Person> GetByIdAsync(int personId, CancellationToken cancellationToken = default)
         {
             string query = "usp_selectPersonById";
-
-            // Ejecutar el procedimiento almacenado para obtener la persona por su ID
+            
             Person? person = await _connection.QueryFirstOrDefaultAsync<Person>(
                 query, new { @Id = personId }, commandType: CommandType.StoredProcedure
             );
@@ -73,12 +57,9 @@ namespace Infrastructure.Persistence
             return person;
         }
 
-
         public async Task AddAsync(Person person, CancellationToken cancellationToken = default)
         {
-            // Abrir la conexión
             _connection.Open();
-
             using (var transaction = _connection.BeginTransaction())
             {
                 try
@@ -99,8 +80,6 @@ namespace Infrastructure.Persistence
                     };
 
                     await _connection.ExecuteAsync(query, parameters, commandType: CommandType.StoredProcedure, transaction: transaction);
-
-                    // Commit the transaction
                     transaction.Commit();
                 }
                 catch (Exception ex)
@@ -119,12 +98,9 @@ namespace Infrastructure.Persistence
             }
         }
 
-
         public async Task UpdateAsync(Person person, CancellationToken cancellationToken = default)
         {
-
             _connection.Open();
-
             using (var transaction = _connection.BeginTransaction())
             {
                 try
@@ -150,7 +126,6 @@ namespace Infrastructure.Persistence
                 catch (Exception ex)
                 {
                     transaction.Rollback();
-                    // Log error
                     Console.WriteLine($"Error de actualización: {ex.Message}");
                     throw;
                 }
@@ -162,10 +137,7 @@ namespace Infrastructure.Persistence
             }
         }
 
-
-
         // Delete Person
-
         public async Task RemoveAsync(Person person, CancellationToken cancellationToken = default)
         {
             var query = "usp_deletePerson";

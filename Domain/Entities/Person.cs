@@ -26,9 +26,6 @@ namespace Domain.Entities
         [Required(ErrorMessage = "El campo Pass es obligatorio.")]
         public string Pass { get; set;}
 
-
-        // Propiedades de navegación para las relaciones con Rol y Departamento
-
         [Required]
         public int DepartmentId { get; set; }
         public Departament Departament { get; set; }
