@@ -10,5 +10,7 @@
 
         IRoleService RoleService { get; }
 
+        IAuthService AuthService { get; }
+
     }
 }

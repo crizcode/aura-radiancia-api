@@ -28,11 +28,14 @@ namespace Infraestructure.Shared
         [Required]
         public int RoleId { get; set; }
 
+        public string? Estado { get; set; } // 0 o 1
+
+
         public PersonDto()
         {
         }
 
-        public PersonDto(int id, string nombre, string apellido, string email, string user, string pass, int departamentoId, int rolId)
+        public PersonDto(int id, string nombre, string apellido, string email, string user, string pass, int departamentoId, int rolId, string estado)
         {
             Id = id;
             Nombre = nombre;
@@ -42,6 +45,7 @@ namespace Infraestructure.Shared
             Pass = pass;
             DepartmentId = departamentoId;
             RoleId = rolId;
+            Estado = estado;
         }
     }
 }

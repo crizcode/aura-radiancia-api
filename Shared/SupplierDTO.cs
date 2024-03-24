@@ -3,8 +3,8 @@
     public class SupplierDto
     {
         public int SupplierId { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public string Estado { get; set; } = string.Empty;
+        public string Name { get; set; }
+        public string Estado { get; set; }
 
         public SupplierDto()
         {

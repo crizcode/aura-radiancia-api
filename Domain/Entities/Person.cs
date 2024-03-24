@@ -33,5 +33,10 @@ namespace Domain.Entities
         [Required]
         public int RoleId { get; set; }
         public Role Role { get; set; }
-    }
+
+        public string? Estado { get; set; } // 0 o 1
+
+    
+
+}
 }

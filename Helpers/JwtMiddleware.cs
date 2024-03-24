@@ -3,8 +3,8 @@ using Domain.Services.Abstractions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,6 +30,16 @@ public class JwtMiddleware
             return;
         }
 
+        // Verificar si la solicitud es para renovar el token
+        if (path.HasValue && path.Value.EndsWith("/api/v1/auth/renew"))
+        {
+
+            // Después de renovar el token, continuar con el siguiente middleware en la cadena
+            await _next(context);
+            return;
+        }
+
+
         // Verifica si la solicitud es para crear una persona y permite el acceso sin autenticación
         if (path.HasValue && path.Value.EndsWith("/api/v1/person/save"))
         {
@@ -52,6 +62,8 @@ public class JwtMiddleware
             // Se adjunta el usuario al contexto
             await AttachPersonToContextAsync(context, userService, token);
 
+
+
             // Llamar al siguiente middleware en la cadena
             await _next(context);
         }
@@ -63,6 +75,7 @@ public class JwtMiddleware
         }
     }
 
+  
     private async Task AttachPersonToContextAsync(HttpContext context, IPersonService userService, string token)
     {
         try

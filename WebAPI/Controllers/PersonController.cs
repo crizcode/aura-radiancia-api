@@ -1,9 +1,7 @@
-﻿using Domain.Entities;
-using Domain.Services.Abstractions;
+﻿using Domain.Services.Abstractions;
 using Infraestructure.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace WebAPI.Controllers
 {
@@ -14,18 +12,6 @@ namespace WebAPI.Controllers
         private readonly IServiceManager _serviceManager;
         public PersonController(IServiceManager serviceManager) => _serviceManager = serviceManager;
 
-
-        [AllowAnonymous]
-        [HttpPost("authenticate")]
-        public async Task<IActionResult> Authenticate(AuthenticateRequest model)
-        {
-            var response = await _serviceManager.PersonService.AuthenticateAsync(model);
-
-            if (response == null)
-                return BadRequest(new { message = "Usuario o contraseña incorrecto" });
-
-            return Ok(response);
-        }
 
         // List People
         [HttpGet("list")]

@@ -44,6 +44,8 @@ namespace Presentacion
             services.AddScoped<IPersonService, PersonService>();
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IAuthService, AuthService>();
 
         }
 

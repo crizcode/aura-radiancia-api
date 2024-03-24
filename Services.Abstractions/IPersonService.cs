@@ -5,7 +5,6 @@ namespace Domain.Services.Abstractions
 {
     public interface IPersonService
     {
-        Task<AuthenticateResponse> AuthenticateAsync(AuthenticateRequest model, CancellationToken cancellationToken = default);
         Task<IEnumerable<PersonDto>> GetAllAsync(CancellationToken cancellationToken = default);
         Task<PersonDto> GetByIdAsync(int personId, CancellationToken cancellationToken = default);
         Task<PersonDto> CreateAsync(PersonDto personForCreationDto, CancellationToken cancellationToken = default);

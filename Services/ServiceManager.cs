@@ -13,6 +13,7 @@ namespace Domain.Services
         private readonly Lazy<ISupplierService> _lazySupplierService;
         private readonly Lazy<IPersonService> _lazyPersonService;
         private readonly Lazy<IRoleService> _lazyRoleService;
+        private readonly Lazy<IAuthService> _lazyAuthService;
 
         public ServiceManager(IRepositoryManager repositoryManager, IUnitOfWork unitOfWork, IMapper mapper, IOptions<AppSettings> appSettings)
         {
@@ -21,6 +22,7 @@ namespace Domain.Services
             _lazySupplierService = new Lazy<ISupplierService>(() => new SupplierService(repositoryManager, unitOfWork, mapper));
             _lazyPersonService = new Lazy<IPersonService>(() => new PersonService(repositoryManager, unitOfWork, mapper, appSettings));
             _lazyRoleService = new Lazy<IRoleService>(() => new RoleService(repositoryManager, unitOfWork, mapper));
+            _lazyAuthService = new Lazy<IAuthService>(() => new AuthService(repositoryManager, appSettings));
         }
 
         public IProductService ProductService
@@ -45,6 +47,11 @@ namespace Domain.Services
         public IRoleService RoleService
         {
             get { return _lazyRoleService.Value; }
+        }
+
+        public IAuthService AuthService
+        {
+            get { return _lazyAuthService.Value; }
         }
     }
 }

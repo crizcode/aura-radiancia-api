@@ -8,6 +8,7 @@
         IPersonRepository People { get; }
 
         IRoleRepository Roles { get; }
+        IAuthRepository Auths { get; }
 
     }
 }

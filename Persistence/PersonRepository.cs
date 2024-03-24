@@ -35,9 +35,14 @@ namespace Infrastructure.Persistence
                 "usp_listPeople", commandType: CommandType.StoredProcedure
             );
 
+
+            foreach (var person in people)
+            {
+                person.Estado = person.Estado == "True" ? "Activo" : "Inactivo";
+            }
+
             return people;
         }
-
         // List Person By Id
 
         public async Task<Person> GetByIdAsync(int personId, CancellationToken cancellationToken = default)
@@ -53,6 +58,8 @@ namespace Infrastructure.Persistence
             {
                 throw new PersonNotFoundExceptions(personId);
             }
+
+            person.Estado = person.Estado == "True" ? "Activo" : "Inactivo";
 
             return person;
         }
