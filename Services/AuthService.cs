@@ -77,12 +77,13 @@ namespace Domain.Services
             // Generar un token aleatorio
             var refreshToken = GenerateRandomToken();
 
-            // Calcular la fecha de expiración (por ejemplo, 30 días después de la fecha actual)
+            // Calcular la fecha de expiración 
             var expirationDate = DateTime.UtcNow.AddMinutes(4);
+            // Convertir en horario local
+            var localExpirationDate = TimeZoneInfo.ConvertTimeFromUtc(expirationDate, TimeZoneInfo.Local);
+            // Almacenar refreshToken y expirationDate en la base de datos
 
-            // Aquí deberías almacenar refreshToken y expirationDate en la base de datos
-
-            return new RefreshTokenResponse(user, refreshToken, expirationDate, DateTime.UtcNow);
+            return new RefreshTokenResponse(user, refreshToken, localExpirationDate);
         }
 
         private static string GenerateRandomToken()

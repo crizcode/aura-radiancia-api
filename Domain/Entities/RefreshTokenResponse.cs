@@ -22,12 +22,11 @@ public class RefreshTokenResponse
     {
     }
 
-    public RefreshTokenResponse(Person user, string refreshtoken, DateTime fechaExp, DateTime fechaCrea)
+    public RefreshTokenResponse(Person user, string refreshtoken, DateTime fechaExp)
         {
             UserId = user.Id;
             RefreshToken = refreshtoken;
             FechaExp = fechaExp;
-            FechaCrea = fechaCrea;
         }
 
 
@@ -43,6 +42,7 @@ public class RefreshTokenResponse
         Token = token;
         RefreshToken = refreshToken;
     }
+
 }
 
  

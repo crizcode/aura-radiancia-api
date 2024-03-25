@@ -31,7 +31,6 @@ namespace WebAPI.Controllers
         }
 
 
-        [AllowAnonymous]
         [HttpPost("renew")]
         public async Task<IActionResult> Renew([FromBody] string refreshToken)
         {
