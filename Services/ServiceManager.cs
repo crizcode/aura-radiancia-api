@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using Domain.Helpers;
-using Domain.Repositories;
-using Domain.Services.Abstractions;
+using Core.Helpers;
+using Core.Domain.Interfaces;
+using Core.Services.Abstractions;
 using Microsoft.Extensions.Options;
 
-namespace Domain.Services
+namespace Core.Services
 {
     public sealed class ServiceManager : IServiceManager
     {

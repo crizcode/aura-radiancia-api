@@ -1,4 +1,4 @@
-﻿using Domain.Services.Abstractions;
+﻿using Core.Services.Abstractions;
 using Infraestructure.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

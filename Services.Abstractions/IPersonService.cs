@@ -1,7 +1,6 @@
-﻿using Domain.Entities;
-using Infraestructure.Shared;
+﻿using Infraestructure.Shared;
 
-namespace Domain.Services.Abstractions
+namespace  Core.Services.Abstractions
 {
     public interface IPersonService
     {

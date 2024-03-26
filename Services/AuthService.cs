@@ -1,21 +1,16 @@
-﻿using Domain.Entities;
-using Domain.Exceptions;
-using Domain.Helpers;
-using Domain.Repositories;
-using Domain.Services.Abstractions;
-using Infraestructure.Shared;
+﻿using Core.Domain.Entities;
+using Core.Helpers;
+using Core.Domain.Interfaces;
+using Core.Services.Abstractions;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Authentication;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace Domain.Services
+namespace Core.Services
 {
     public sealed class AuthService : IAuthService
     {

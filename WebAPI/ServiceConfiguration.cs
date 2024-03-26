@@ -1,14 +1,11 @@
-﻿using Domain.Repositories;
-using Domain.Services;
-using Domain.Services.Abstractions;
+﻿using Core.Domain.Interfaces;
+using Core.Services;
+using Core.Services.Abstractions;
 using Infrastructure.Persistence;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Persistence.Mapping;
 using System.Data;
 using System.Data.SqlClient;
-using System.Text;
 
 
 namespace Presentacion

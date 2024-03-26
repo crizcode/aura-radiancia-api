@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using Domain.Entities;
-using Domain.Exceptions;
-using Domain.Repositories;
-using Domain.Services.Abstractions;
+using Core.Services.Abstractions;
 using Infraestructure.Shared;
+using Core.Domain.Interfaces;
+using Core.Domain.Exceptions;
+using Core.Domain.Entities;
 
-namespace Domain.Services
+namespace Core.Services
 
 {
     public sealed class SupplierService : ISupplierService

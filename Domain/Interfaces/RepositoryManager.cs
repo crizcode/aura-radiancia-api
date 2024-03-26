@@ -1,4 +1,4 @@
-﻿namespace Domain.Repositories
+﻿namespace  Core.Domain.Interfaces
 {
     public class RepositoryManager : IRepositoryManager, IDisposable
     {

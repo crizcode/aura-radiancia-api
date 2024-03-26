@@ -1,4 +1,4 @@
-using Domain.Helpers;
+using Core.Helpers;
 using Presentacion;
 using System.Data;
 using System.Data.SqlClient;

@@ -1,6 +1,6 @@
-﻿using Domain.Entities;
+﻿using  Core.Domain.Entities;
 
-namespace Domain.Services.Abstractions
+namespace  Core.Services.Abstractions
 {
     public interface IAuthService
     {

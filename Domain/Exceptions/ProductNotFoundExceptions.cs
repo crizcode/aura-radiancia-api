@@ -1,4 +1,4 @@
-﻿namespace Domain.Exceptions
+﻿namespace Core.Domain.Exceptions
 {
     public sealed class ProductNotFoundExceptions : NotFoundException
     {

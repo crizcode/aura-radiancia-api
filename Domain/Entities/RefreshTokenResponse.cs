@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Domain.Entities;
+namespace Core.Domain.Entities;
 
 public class RefreshTokenResponse
 {

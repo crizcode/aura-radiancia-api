@@ -1,6 +1,6 @@
-﻿using Domain.Entities;
+﻿using  Core.Domain.Entities;
 
-namespace Domain.Repositories
+namespace  Core.Domain.Interfaces
 {
     public interface ISupplierRepository
     {

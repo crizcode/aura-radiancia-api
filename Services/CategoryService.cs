@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
-using Domain.Entities;
-using Domain.Exceptions;
-using Domain.Repositories;
-using Domain.Services.Abstractions;
+using Core.Domain.Entities;
+using Core.Domain.Exceptions;
+using Core.Domain.Interfaces;
+using Core.Services.Abstractions;
 using Infraestructure.Shared;
 
 
-namespace Domain.Services
+namespace Core.Services
 {
     public sealed class CategoryService : ICategoryService
     {

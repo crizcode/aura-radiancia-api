@@ -1,8 +1,8 @@
 ﻿using Dapper;
-using Domain.Entities;
-using Domain.Exceptions;
-using Domain.Repositories;
+using Core.Domain.Entities;
+using Core.Domain.Interfaces;
 using System.Data;
+using Core.Domain.Exceptions;
 
 namespace Infrastructure.Persistence
 {

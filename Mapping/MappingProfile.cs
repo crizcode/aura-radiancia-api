@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Domain.Entities;
+using Core.Domain.Entities;
 using Infraestructure.Shared;
 namespace Persistence.Mapping;
 

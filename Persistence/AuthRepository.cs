@@ -1,14 +1,12 @@
 ﻿using Dapper;
-using Domain.Entities;
-using Domain.Exceptions;
-using Domain.Repositories;
+using Core.Domain.Entities;
 using System.Data;
 using System.Security.Authentication;
 using Tools;
 
 namespace Infrastructure.Persistence
 {
-    public class AuthRepository : IAuthRepository
+    public class AuthRepository : Core.Domain.Interfaces.IAuthRepository
     {
         private readonly IDbConnection _connection;
 

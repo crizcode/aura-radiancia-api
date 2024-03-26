@@ -1,8 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Domain.Repositories
+﻿namespace  Core.Domain.Interfaces
 {
     public class UnitOfWork : IUnitOfWork
     {

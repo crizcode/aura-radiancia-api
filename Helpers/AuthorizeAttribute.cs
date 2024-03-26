@@ -1,6 +1,6 @@
-namespace Domain.Helpers;
+namespace  Core.Helpers;
 
-using Domain.Entities;
+using  Core.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;

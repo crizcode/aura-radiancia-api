@@ -1,6 +1,5 @@
-﻿using Domain.Entities;
-using Domain.Services;
-using Domain.Services.Abstractions;
+﻿using Core.Domain.Entities;
+using Core.Services.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

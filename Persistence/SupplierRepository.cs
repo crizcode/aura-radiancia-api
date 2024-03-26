@@ -1,7 +1,7 @@
 ﻿using Dapper;
-using Domain.Entities;
-using Domain.Exceptions;
-using Domain.Repositories;
+using Core.Domain.Entities;
+using Core.Domain.Exceptions;
+using Core.Domain.Interfaces;
 using System.Data;
 
 
