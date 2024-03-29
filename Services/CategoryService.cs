@@ -64,6 +64,7 @@ namespace Core.Services
 
                 // Actualizar los campos de la categoria con la información proporcionada en la DTO
                 category.Name = categoryForUpdateDto.Name;
+                category.Descrip = categoryForUpdateDto.Descrip;
                 category.Estado = categoryForUpdateDto.Estado;
 
                 // Guardar los cambios en la base de datos

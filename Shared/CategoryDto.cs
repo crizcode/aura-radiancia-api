@@ -4,17 +4,19 @@ namespace Infraestructure.Shared
     public class CategoryDto
      {
             public int CategoryId { get; set; }
-            public string Name { get; set; } = string.Empty;
-            public string Estado { get; set; } = string.Empty;
-   
-            public CategoryDto()
+            public string Name { get; set; }
+            public string Descrip { get; set; }
+            public string? Estado { get; set; } // 0 o 1
+
+        public CategoryDto()
             {
             }
 
-            public CategoryDto(int categoryid, string name, string estado)
+            public CategoryDto(int categoryid, string name, string descrip, string estado)
             {
                 CategoryId = categoryid;
                 Name = name;
+                Descrip = descrip;
                 Estado = estado;
             }
     }

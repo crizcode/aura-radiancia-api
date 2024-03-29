@@ -22,8 +22,15 @@ namespace Infrastructure.Persistence
                 "usp_listCategories", commandType: CommandType.StoredProcedure
             );
 
+
+            foreach (var category in categories)
+            {
+                category.Estado = category.Estado == "True" ? "Activo" : "Inactivo";
+            }
+
             return categories;
         }
+    
 
         // List Category By Id
         public async Task<Category> GetByIdAsync(int categoryId, CancellationToken cancellationToken = default)
@@ -39,6 +46,8 @@ namespace Infrastructure.Persistence
                 throw new CategoryNotFoundExceptions(categoryId);
             }
 
+            category.Estado = category.Estado == "True" ? "Activo" : "Inactivo";
+
             return category;
         }
 
@@ -53,7 +62,7 @@ namespace Infrastructure.Persistence
                     var parameters = new
                     {
                         @Name = category.Name,
-                        @Estado = category.Estado,
+                        @Descrip = category.Descrip
                     };
 
                     await _connection.ExecuteAsync(query, parameters, commandType: CommandType.StoredProcedure, transaction: transaction);
@@ -87,6 +96,7 @@ namespace Infrastructure.Persistence
                     {
                         @categoryId = category.CategoryId,
                         @Name = category.Name,
+                        @Descrip = category.Descrip,
                         @Estado = category.Estado
                     };
 

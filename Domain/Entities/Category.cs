@@ -2,16 +2,17 @@
 
 namespace Core.Domain.Entities
 {
-
     public class Category
     {
         public int CategoryId { get; set; }
 
         [Required(ErrorMessage = "El campo Name es obligatorio.")]
-        public string Name { get; set; } 
+        public string Name { get; set; }
+
+        public string Descrip{ get; set; }
 
         [Required(ErrorMessage = "El campo Estado es obligatorio.")]
-        public string Estado { get; set; } 
+        public string? Estado { get; set; }
+
     }
 }
-

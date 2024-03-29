@@ -5,12 +5,12 @@ using System.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Agrega servicios necesarios para la aplicación
 ServiceConfiguration.Configure(builder.Services, builder.Configuration);
 builder.Services.AddControllers();
 
-// Agrega servicios necesarios para la aplicación
-builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+// Servicios mapea AppSettings
+
+//builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 
 // Agrega servicios requeridos para Swagger
 builder.Services.AddEndpointsApiExplorer();

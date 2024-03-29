@@ -9,12 +9,16 @@ using System.Text;
 public class JwtMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly AppSettings _appSettings;
+    //private readonly AppSettings _appSettings;
+    private readonly string _jwtSecret;
 
     public JwtMiddleware(RequestDelegate next, IOptions<AppSettings> appSettings)
     {
         _next = next ?? throw new ArgumentNullException(nameof(next));
-        _appSettings = appSettings?.Value ?? throw new ArgumentNullException(nameof(appSettings));
+        // _appSettings = appSettings?.Value ?? throw new ArgumentNullException(nameof(appSettings));
+
+        // Acceder al valor de la variable de entorno JWT_SECRET
+        _jwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET");
     }
 
     public async Task Invoke(HttpContext context, IPersonService userService)
@@ -79,7 +83,8 @@ public class JwtMiddleware
         try
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            //var key = Encoding.ASCII.GetBytes(_appSettings.Secret); // Secreto JWT del archivo de config de C#
+            var key = Encoding.ASCII.GetBytes(_jwtSecret); // Secreto JWT de la variable de entorno
             tokenHandler.ValidateToken(token, new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,

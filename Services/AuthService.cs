@@ -15,12 +15,16 @@ namespace Core.Services
     public sealed class AuthService : IAuthService
     {
         private readonly IRepositoryManager _repositoryManager;
-        private readonly AppSettings _appSettings;
+        // private readonly AppSettings _appSettings;
+        private readonly string _jwtSecret;
 
         public AuthService(IRepositoryManager repositoryManager, IOptions<AppSettings> appSettings)
         {
             _repositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
-            _appSettings = appSettings?.Value ?? throw new ArgumentNullException(nameof(appSettings));
+            // _appSettings = appSettings?.Value ?? throw new ArgumentNullException(nameof(appSettings));
+
+            // Acceder al valor de la variable de entorno JWT_SECRET
+            _jwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET");
         }
 
         public async Task<AuthenticateResponse> AuthenticateAsync(AuthenticateRequest model, CancellationToken cancellationToken = default)
@@ -52,7 +56,11 @@ namespace Core.Services
         private string GenerateJwtToken(Person user, int roleId)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            //var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+
+            var key = Encoding.ASCII.GetBytes(_jwtSecret); // Secreto JWT de la variable de entorno
+
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]
@@ -60,7 +68,7 @@ namespace Core.Services
                     new Claim("id", user.Id.ToString()),
                     new Claim("role_id", roleId.ToString())
                 }),
-                Expires = DateTime.UtcNow.AddMinutes(2),
+                Expires = DateTime.UtcNow.AddMinutes(6),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -73,7 +81,7 @@ namespace Core.Services
             var refreshToken = GenerateRandomToken();
 
             // Calcular la fecha de expiración 
-            var expirationDate = DateTime.UtcNow.AddMinutes(4);
+            var expirationDate = DateTime.UtcNow.AddMinutes(8);
             // Convertir en horario local
             var localExpirationDate = TimeZoneInfo.ConvertTimeFromUtc(expirationDate, TimeZoneInfo.Local);
             // Almacenar refreshToken y expirationDate en la base de datos
@@ -135,13 +143,6 @@ namespace Core.Services
                 return response;
             }
         }
-
-
-
-
-
-
-
     }
 
 }

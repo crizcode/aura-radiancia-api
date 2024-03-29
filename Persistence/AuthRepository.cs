@@ -58,7 +58,7 @@ namespace Infrastructure.Persistence
                 @FechaExp = token.FechaExp,
             };
 
-            await _connection.ExecuteAsync("InsertRefreshToken", parameters, commandType: CommandType.StoredProcedure);
+            await _connection.ExecuteAsync("usp_insertRefreshToken", parameters, commandType: CommandType.StoredProcedure);
         }
 
       

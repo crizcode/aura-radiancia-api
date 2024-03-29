@@ -23,6 +23,12 @@ namespace Infrastructure.Persistence
                 "usp_listSuppliers", commandType: CommandType.StoredProcedure
             );
 
+
+            foreach (var supplier in suppliers)
+            {
+                supplier.Estado =supplier.Estado == "True" ? "Activo" : "Inactivo";
+            }
+
             return suppliers;
         }
 
@@ -40,6 +46,8 @@ namespace Infrastructure.Persistence
                 throw new CategoryNotFoundExceptions(supplierId);
             }
 
+            supplier.Estado = supplier.Estado == "True" ? "Activo" : "Inactivo";
+
             return supplier;
         }
 
@@ -54,7 +62,8 @@ namespace Infrastructure.Persistence
                     var parameters = new
                     {
                         @Name = supplier.Name,
-                        @Estado = supplier.Estado,
+                        @Direccion = supplier.Direccion,
+                        @Telefono = supplier.Telefono
                     };
 
                     await _connection.ExecuteAsync(query, parameters, commandType: CommandType.StoredProcedure, transaction: transaction);
@@ -90,7 +99,9 @@ namespace Infrastructure.Persistence
                     {
                         @SupplierId = supplier.SupplierId,
                         @Name = supplier.Name,
-                        @Estado = supplier.Estado,
+                        @Direccion = supplier.Direccion,
+                        @Telefono = supplier.Telefono,
+                        @Estado = supplier.Estado
                     };
 
                     await _connection.ExecuteAsync(query, parameters, commandType: CommandType.StoredProcedure, transaction: transaction);
